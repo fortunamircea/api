@@ -1,0 +1,14 @@
+.gradle/
+build/
+
+.idea/
+*.iml
+
+logs/
+out/
+
+*.pid
+
+**/.DS_Store
+/qa/api-tests/postman-test/allure-results/
+/qa/api-tests/postman-test/allure-results-html/

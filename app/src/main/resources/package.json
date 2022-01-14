@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0-SNAPSHOT",
+  "name": "app-service",
+  "description": "app-service",
+  "branch": "test",
+  "build": "111"
+}
