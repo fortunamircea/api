@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="add_accounts_table" author="dev" failOnError="true">
+    <changeSet id="add_initial_tables" author="dev" failOnError="true">
         <sql>
-            CREATE TABLE accounts (
-                id               BIGSERIAL       NOT NULL PRIMARY KEY,
-                type             VARCHAR(20)     NOT NULL,
-                created_time     TIMESTAMP       NOT NULL DEFAULT NOW()
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+            CREATE TABLE IF NOT EXISTS categories (
+            id uuid DEFAULT uuid_generate_v4(),
+            type VARCHAR(20) NOT NULL,
+            created_At TIMESTAMP NOT NULL DEFAULT NOW(),
+            updated_At TIMESTAMP,
+            PRIMARY KEY (id)
             );
 
+            CREATE TABLE IF NOT EXISTS products (
+            id uuid DEFAULT uuid_generate_v4(),
+            type VARCHAR(20) NOT NULL,
+            units DECIMAL,
+            price DECIMAL,
+            created_At TIMESTAMP NOT NULL DEFAULT NOW(),
+            updated_At TIMESTAMP,
+            category_Id UUID NOT NULL,
+            PRIMARY KEY (id),
+            CONSTRAINT fk_categories
+            FOREIGN KEY(category_Id)
+            REFERENCES categories(id));
         </sql>
     </changeSet>
 

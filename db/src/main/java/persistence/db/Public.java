@@ -11,12 +11,12 @@ import org.jooq.Catalog;
 import org.jooq.Configuration;
 import org.jooq.Field;
 import org.jooq.Result;
-import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
-import persistence.db.tables.Accounts;
+import persistence.db.tables.Categories;
 import persistence.db.tables.PgpArmorHeaders;
+import persistence.db.tables.Products;
 import persistence.db.tables.records.PgpArmorHeadersRecord;
 
 
@@ -34,9 +34,9 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
-     * The table <code>public.accounts</code>.
+     * The table <code>public.categories</code>.
      */
-    public final Accounts ACCOUNTS = Accounts.ACCOUNTS;
+    public final Categories CATEGORIES = Categories.CATEGORIES;
 
     /**
      * The table <code>public.pgp_armor_headers</code>.
@@ -78,6 +78,11 @@ public class Public extends SchemaImpl {
     }
 
     /**
+     * The table <code>public.products</code>.
+     */
+    public final Products PRODUCTS = Products.PRODUCTS;
+
+    /**
      * No further instances allowed
      */
     private Public() {
@@ -91,15 +96,10 @@ public class Public extends SchemaImpl {
     }
 
     @Override
-    public final List<Sequence<?>> getSequences() {
-        return Arrays.<Sequence<?>>asList(
-            Sequences.ACCOUNTS_ID_SEQ);
-    }
-
-    @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
-            Accounts.ACCOUNTS,
-            PgpArmorHeaders.PGP_ARMOR_HEADERS);
+            Categories.CATEGORIES,
+            PgpArmorHeaders.PGP_ARMOR_HEADERS,
+            Products.PRODUCTS);
     }
 }
