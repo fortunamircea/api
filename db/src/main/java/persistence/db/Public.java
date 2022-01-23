@@ -14,9 +14,13 @@ import org.jooq.Result;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
+import persistence.db.tables.Cart;
+import persistence.db.tables.CartItem;
 import persistence.db.tables.Categories;
+import persistence.db.tables.Customers;
 import persistence.db.tables.PgpArmorHeaders;
 import persistence.db.tables.Products;
+import persistence.db.tables.PurchaseHistory;
 import persistence.db.tables.records.PgpArmorHeadersRecord;
 
 
@@ -34,9 +38,24 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
+     * The table <code>public.cart</code>.
+     */
+    public final Cart CART = Cart.CART;
+
+    /**
+     * The table <code>public.cart_item</code>.
+     */
+    public final CartItem CART_ITEM = CartItem.CART_ITEM;
+
+    /**
      * The table <code>public.categories</code>.
      */
     public final Categories CATEGORIES = Categories.CATEGORIES;
+
+    /**
+     * The table <code>public.customers</code>.
+     */
+    public final Customers CUSTOMERS = Customers.CUSTOMERS;
 
     /**
      * The table <code>public.pgp_armor_headers</code>.
@@ -83,6 +102,11 @@ public class Public extends SchemaImpl {
     public final Products PRODUCTS = Products.PRODUCTS;
 
     /**
+     * The table <code>public.purchase_history</code>.
+     */
+    public final PurchaseHistory PURCHASE_HISTORY = PurchaseHistory.PURCHASE_HISTORY;
+
+    /**
      * No further instances allowed
      */
     private Public() {
@@ -98,8 +122,12 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
+            Cart.CART,
+            CartItem.CART_ITEM,
             Categories.CATEGORIES,
+            Customers.CUSTOMERS,
             PgpArmorHeaders.PGP_ARMOR_HEADERS,
-            Products.PRODUCTS);
+            Products.PRODUCTS,
+            PurchaseHistory.PURCHASE_HISTORY);
     }
 }

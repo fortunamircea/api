@@ -8,9 +8,13 @@ import org.jooq.Configuration;
 import org.jooq.Field;
 import org.jooq.Result;
 
+import persistence.db.tables.Cart;
+import persistence.db.tables.CartItem;
 import persistence.db.tables.Categories;
+import persistence.db.tables.Customers;
 import persistence.db.tables.PgpArmorHeaders;
 import persistence.db.tables.Products;
+import persistence.db.tables.PurchaseHistory;
 import persistence.db.tables.records.PgpArmorHeadersRecord;
 
 
@@ -21,9 +25,24 @@ import persistence.db.tables.records.PgpArmorHeadersRecord;
 public class Tables {
 
     /**
+     * The table <code>public.cart</code>.
+     */
+    public static final Cart CART = Cart.CART;
+
+    /**
+     * The table <code>public.cart_item</code>.
+     */
+    public static final CartItem CART_ITEM = CartItem.CART_ITEM;
+
+    /**
      * The table <code>public.categories</code>.
      */
     public static final Categories CATEGORIES = Categories.CATEGORIES;
+
+    /**
+     * The table <code>public.customers</code>.
+     */
+    public static final Customers CUSTOMERS = Customers.CUSTOMERS;
 
     /**
      * The table <code>public.pgp_armor_headers</code>.
@@ -68,4 +87,9 @@ public class Tables {
      * The table <code>public.products</code>.
      */
     public static final Products PRODUCTS = Products.PRODUCTS;
+
+    /**
+     * The table <code>public.purchase_history</code>.
+     */
+    public static final PurchaseHistory PURCHASE_HISTORY = PurchaseHistory.PURCHASE_HISTORY;
 }

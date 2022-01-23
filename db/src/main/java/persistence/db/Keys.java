@@ -10,10 +10,18 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
+import persistence.db.tables.Cart;
+import persistence.db.tables.CartItem;
 import persistence.db.tables.Categories;
+import persistence.db.tables.Customers;
 import persistence.db.tables.Products;
+import persistence.db.tables.PurchaseHistory;
+import persistence.db.tables.records.CartItemRecord;
+import persistence.db.tables.records.CartRecord;
 import persistence.db.tables.records.CategoriesRecord;
+import persistence.db.tables.records.CustomersRecord;
 import persistence.db.tables.records.ProductsRecord;
+import persistence.db.tables.records.PurchaseHistoryRecord;
 
 
 /**
@@ -27,12 +35,20 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<CartRecord> CART_PKEY = Internal.createUniqueKey(Cart.CART, DSL.name("cart_pkey"), new TableField[] { Cart.CART.ID }, true);
+    public static final UniqueKey<CartItemRecord> CART_ITEM_PKEY = Internal.createUniqueKey(CartItem.CART_ITEM, DSL.name("cart_item_pkey"), new TableField[] { CartItem.CART_ITEM.ID }, true);
     public static final UniqueKey<CategoriesRecord> CATEGORIES_PKEY = Internal.createUniqueKey(Categories.CATEGORIES, DSL.name("categories_pkey"), new TableField[] { Categories.CATEGORIES.ID }, true);
+    public static final UniqueKey<CustomersRecord> CUSTOMERS_PKEY = Internal.createUniqueKey(Customers.CUSTOMERS, DSL.name("customers_pkey"), new TableField[] { Customers.CUSTOMERS.ID }, true);
     public static final UniqueKey<ProductsRecord> PRODUCTS_PKEY = Internal.createUniqueKey(Products.PRODUCTS, DSL.name("products_pkey"), new TableField[] { Products.PRODUCTS.ID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<CartRecord, CustomersRecord> CART__FK_CUSTOMERS = Internal.createForeignKey(Cart.CART, DSL.name("fk_customers"), new TableField[] { Cart.CART.CUSTOMERS_ID }, Keys.CUSTOMERS_PKEY, new TableField[] { Customers.CUSTOMERS.ID }, true);
+    public static final ForeignKey<CartItemRecord, CartRecord> CART_ITEM__FK_CART = Internal.createForeignKey(CartItem.CART_ITEM, DSL.name("fk_cart"), new TableField[] { CartItem.CART_ITEM.CART_ID }, Keys.CART_PKEY, new TableField[] { Cart.CART.ID }, true);
+    public static final ForeignKey<CartItemRecord, ProductsRecord> CART_ITEM__FK_PRODUCTS = Internal.createForeignKey(CartItem.CART_ITEM, DSL.name("fk_products"), new TableField[] { CartItem.CART_ITEM.PRODUCT_ID }, Keys.PRODUCTS_PKEY, new TableField[] { Products.PRODUCTS.ID }, true);
     public static final ForeignKey<ProductsRecord, CategoriesRecord> PRODUCTS__FK_CATEGORIES = Internal.createForeignKey(Products.PRODUCTS, DSL.name("fk_categories"), new TableField[] { Products.PRODUCTS.CATEGORY_ID }, Keys.CATEGORIES_PKEY, new TableField[] { Categories.CATEGORIES.ID }, true);
+    public static final ForeignKey<PurchaseHistoryRecord, CartRecord> PURCHASE_HISTORY__FK_CART = Internal.createForeignKey(PurchaseHistory.PURCHASE_HISTORY, DSL.name("fk_cart"), new TableField[] { PurchaseHistory.PURCHASE_HISTORY.CARD_ID }, Keys.CART_PKEY, new TableField[] { Cart.CART.ID }, true);
+    public static final ForeignKey<PurchaseHistoryRecord, CustomersRecord> PURCHASE_HISTORY__FK_CUSTOMERS = Internal.createForeignKey(PurchaseHistory.PURCHASE_HISTORY, DSL.name("fk_customers"), new TableField[] { PurchaseHistory.PURCHASE_HISTORY.CUSTOMERS_ID }, Keys.CUSTOMERS_PKEY, new TableField[] { Customers.CUSTOMERS.ID }, true);
 }
