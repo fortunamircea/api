@@ -4,13 +4,16 @@
 package persistence.db;
 
 
+import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
-import persistence.db.tables.Accounts;
-import persistence.db.tables.records.AccountsRecord;
+import persistence.db.tables.Categories;
+import persistence.db.tables.Products;
+import persistence.db.tables.records.CategoriesRecord;
+import persistence.db.tables.records.ProductsRecord;
 
 
 /**
@@ -24,5 +27,12 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<AccountsRecord> ACCOUNTS_PKEY = Internal.createUniqueKey(Accounts.ACCOUNTS, DSL.name("accounts_pkey"), new TableField[] { Accounts.ACCOUNTS.ID }, true);
+    public static final UniqueKey<CategoriesRecord> CATEGORIES_PKEY = Internal.createUniqueKey(Categories.CATEGORIES, DSL.name("categories_pkey"), new TableField[] { Categories.CATEGORIES.ID }, true);
+    public static final UniqueKey<ProductsRecord> PRODUCTS_PKEY = Internal.createUniqueKey(Products.PRODUCTS, DSL.name("products_pkey"), new TableField[] { Products.PRODUCTS.ID }, true);
+
+    // -------------------------------------------------------------------------
+    // FOREIGN KEY definitions
+    // -------------------------------------------------------------------------
+
+    public static final ForeignKey<ProductsRecord, CategoriesRecord> PRODUCTS__FK_CATEGORIES = Internal.createForeignKey(Products.PRODUCTS, DSL.name("fk_categories"), new TableField[] { Products.PRODUCTS.CATEGORY_ID }, Keys.CATEGORIES_PKEY, new TableField[] { Categories.CATEGORIES.ID }, true);
 }
