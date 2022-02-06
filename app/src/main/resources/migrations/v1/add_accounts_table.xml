@@ -35,7 +35,7 @@
             first_name VARCHAR(20) NOT NULL,
             last_name VARCHAR(20) NOT NULL,
             email VARCHAR(20),
-            token VARCHAR(20),
+            cart_id uuid NOT NULL,
             created_At TIMESTAMP NOT NULL DEFAULT NOW(),
             updated_At TIMESTAMP,
             PRIMARY KEY (id));
@@ -53,6 +53,8 @@
             product_Id UUID NOT NULL,
             cart_Id UUID NOT NULL,
             quantity DECIMAL NOT NULL,
+            created_at timestamp NOT NULL DEFAULT now(),
+            updated_at timestamp NULL,
             PRIMARY KEY (id),
             CONSTRAINT fk_products
             FOREIGN KEY(product_Id)

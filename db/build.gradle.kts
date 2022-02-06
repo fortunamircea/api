@@ -3,18 +3,14 @@ val postgresqlVersion: String by project
 plugins {
     id("nu.studer.jooq") version "6.0.1"
 }
-
 dependencies {
     jooqGenerator("org.postgresql:postgresql:${postgresqlVersion}")
 }
-
 jooq {
     version.set(dependencyManagement.importedProperties["jooq.version"])
-
     configurations {
         create("main") {
             generateSchemaSourceOnCompilation.set(false)
-
             jooqConfiguration.apply {
                 logging = org.jooq.meta.jaxb.Logging.WARN
                 jdbc.apply {
@@ -30,7 +26,6 @@ jooq {
                         inputSchema = "public"
                         includes = ".*"
                         excludes = "databasechangelog.*"
-
                     }
                     generate.apply {
                         isDeprecated = false

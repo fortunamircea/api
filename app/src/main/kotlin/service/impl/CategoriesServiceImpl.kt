@@ -1,9 +1,8 @@
 package service.impl
 
 import data.CategoryDto
-import data.CreateCategoryDto
-import data.GetCategoryDto
-import data.ListCategoryDto
+import data.CategoryCreateDto
+import data.CategoryListDto
 import exceptions.APINotFoundException
 import org.springframework.stereotype.Service
 import repository.CategoriesRepository
@@ -14,16 +13,16 @@ import java.util.*
 
 @Service
 class CategoriesServiceImpl(private val repository: CategoriesRepository) : CategoriesService {
-    override fun add(dto: CreateCategoryDto): Result.Object<UUID> =
+    override fun add(dto: CategoryCreateDto): Result.Object<UUID> =
         Result.Object(repository.add(dto))
 
-    override fun list(dto: ListCategoryDto): Result.Page<CategoryDto> {
+    override fun list(dto: CategoryListDto): Result.Page<CategoryDto> {
         val response = repository.list(dto)
         return Result.Page(response.first, PagingDto(dto.offset, dto.limit, response.second))
     }
 
 
-    override fun get(dto: GetCategoryDto): Result.Object<CategoryDto> =
-        Result.Object(repository.get(dto.id) ?: throw APINotFoundException("No category found for provided id"))
+    override fun get(id: UUID): Result.Object<CategoryDto> =
+        Result.Object(repository.get(id) ?: throw APINotFoundException("No category found for provided id"))
 
 }

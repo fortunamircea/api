@@ -1,8 +1,8 @@
 package web.controller
 
-import data.CreateProductDto
-import data.GetProductDto
-import data.ListProductsDto
+import data.ProductCreateDto
+import data.ProductGetDto
+import data.ProductsListDto
 import data.ProductDto
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -16,18 +16,18 @@ import java.util.*
 @RequestMapping("/products")
 class ProductsController(private val service: ProductsService) {
 
-    @Operation(summary = "Product list")
+    @Operation(summary = "Products list")
     @PostMapping("/list")
-    fun list(@RequestBody dto: ListProductsDto): Result.Page<ProductDto> =
+    fun list(@RequestBody dto: ProductsListDto): Result.Page<ProductDto> =
         service.list(dto)
 
     @Operation(summary = "Product get")
     @GetMapping("/get")
-    fun get(@RequestBody dto: GetProductDto): Result.Object<ProductDto> =
-        service.get(dto)
+    fun get(@RequestBody dto: ProductGetDto): Result.Object<ProductDto> =
+        service.get(dto.id)
 
     @Operation(summary = "Product create")
     @PostMapping("/create")
-    fun create(@RequestBody dto: CreateProductDto): Result.Object<UUID> =
+    fun create(@RequestBody dto: ProductCreateDto): Result.Object<UUID> =
         service.add(dto)
 }

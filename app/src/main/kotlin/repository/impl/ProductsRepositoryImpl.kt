@@ -1,8 +1,9 @@
 package repository.impl
 
-import data.CreateProductDto
-import data.ListProductsDto
+import data.ProductCreateDto
 import data.ProductDto
+import data.ProductsListDto
+import exceptions.APINotFoundException
 import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.asterisk
@@ -13,7 +14,7 @@ import persistence.db.Tables.PRODUCTS as products
 
 @Repository
 class ProductsRepositoryImpl(private val dsl: DSLContext) : ProductsRepository {
-    override fun add(dto: CreateProductDto): UUID {
+    override fun add(dto: ProductCreateDto): UUID {
         return dsl.insertInto(products)
             .set(products.TYPE, dto.type)
             .set(products.CATEGORY_ID, dto.category_id)
@@ -21,9 +22,9 @@ class ProductsRepositoryImpl(private val dsl: DSLContext) : ProductsRepository {
             .fetchOne()!![products.ID]
     }
 
-    override fun list(dto: ListProductsDto): Pair<List<ProductDto>, Long> {
+    override fun list(dto: ProductsListDto): Pair<List<ProductDto>, Long> {
         val conditions = mutableListOf<Condition>().apply {
-            dto.productsIds?.let { if (it.isNotEmpty()) add(products.ID.`in`(it)) }
+            dto.products_id?.let { if (it.isNotEmpty()) add(products.ID.`in`(it)) }
         }
         return dsl.select(asterisk())
             .from(products)
@@ -44,7 +45,7 @@ class ProductsRepositoryImpl(private val dsl: DSLContext) : ProductsRepository {
                 dsl.fetchCount(dsl.select(products.ID).from(products).where(conditions)).toLong()
     }
 
-    override fun get(id: UUID): ProductDto? =
+    override fun get(id: UUID): ProductDto =
         dsl.select(asterisk()).from(products).where(products.ID.eq(id)).fetchOne {
             ProductDto(
                 id = it[products.ID],
@@ -55,7 +56,11 @@ class ProductsRepositoryImpl(private val dsl: DSLContext) : ProductsRepository {
                 units = it[products.UNITS],
                 price = it[products.PRICE]
             )
-        }
+        } ?: throw APINotFoundException("No product found for provided id")
+
+    override fun exist(id: UUID): Boolean {
+        return dsl.fetchExists(dsl.select(products.ID).from(products).where(products.ID.eq(id)))
+    }
 
 
 }

@@ -5,6 +5,7 @@ package persistence.db.tables;
 
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +14,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row4;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -68,6 +69,16 @@ public class CartItem extends TableImpl<CartItemRecord> {
      * The column <code>public.cart_item.quantity</code>.
      */
     public final TableField<CartItemRecord, BigDecimal> QUANTITY = createField(DSL.name("quantity"), SQLDataType.NUMERIC.nullable(false), this, "");
+
+    /**
+     * The column <code>public.cart_item.created_at</code>.
+     */
+    public final TableField<CartItemRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("now()", SQLDataType.LOCALDATETIME)), this, "");
+
+    /**
+     * The column <code>public.cart_item.updated_at</code>.
+     */
+    public final TableField<CartItemRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(6), this, "");
 
     private CartItem(Name alias, Table<CartItemRecord> aliased) {
         this(alias, aliased, null);
@@ -166,11 +177,11 @@ public class CartItem extends TableImpl<CartItemRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<UUID, UUID, UUID, BigDecimal> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row6<UUID, UUID, UUID, BigDecimal, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 }

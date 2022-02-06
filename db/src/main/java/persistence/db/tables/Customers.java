@@ -70,9 +70,9 @@ public class Customers extends TableImpl<CustomersRecord> {
     public final TableField<CustomersRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>public.customers.token</code>.
+     * The column <code>public.customers.cart_id</code>.
      */
-    public final TableField<CustomersRecord, String> TOKEN = createField(DSL.name("token"), SQLDataType.VARCHAR(20), this, "");
+    public final TableField<CustomersRecord, UUID> CART_ID = createField(DSL.name("cart_id"), SQLDataType.UUID.nullable(false), this, "");
 
     /**
      * The column <code>public.customers.created_at</code>.
@@ -163,7 +163,7 @@ public class Customers extends TableImpl<CustomersRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<UUID, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
+    public Row7<UUID, String, String, String, UUID, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 }

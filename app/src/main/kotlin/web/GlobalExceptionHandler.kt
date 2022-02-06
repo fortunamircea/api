@@ -13,9 +13,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.multipart.MultipartException
-import web.ErrorDto
-import web.Result
-import web.ValidationError
 import java.util.*
 
 @ControllerAdvice

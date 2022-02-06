@@ -1,8 +1,8 @@
 package repository.impl
 
 import data.CategoryDto
-import data.CreateCategoryDto
-import data.ListCategoryDto
+import data.CategoryCreateDto
+import data.CategoryListDto
 import exceptions.APINotFoundException
 import org.jooq.Condition
 import org.jooq.DSLContext
@@ -16,13 +16,13 @@ import persistence.db.Tables.CATEGORIES as categories
 class CategoriesRepositoryImpl(
     private val dsl: DSLContext
 ) : CategoriesRepository {
-    override fun add(dto: CreateCategoryDto): UUID =
+    override fun add(dto: CategoryCreateDto): UUID =
         dsl.insertInto(categories).set(categories.TYPE, dto.type).returning(categories.ID).fetchOne()!![categories.ID]
 
 
-    override fun list(dto: ListCategoryDto): Pair<List<CategoryDto>, Long> {
+    override fun list(dto: CategoryListDto): Pair<List<CategoryDto>, Long> {
         val condition = mutableListOf<Condition>().apply {
-            dto.categoryIds?.let { if (it.isNotEmpty()) add(categories.ID.`in`(it)) }
+            dto.categories_id?.let { if (it.isNotEmpty()) add(categories.ID.`in`(it)) }
         }
         return dsl.select(asterisk()).from(categories)
             .where(condition)
